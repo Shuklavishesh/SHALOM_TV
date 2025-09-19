@@ -7,27 +7,39 @@ class Page:
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 30)
-
-    #  Navigation Locators
+    
+    # Navigation Locators
+    
     HOME = (By.LINK_TEXT, "Home")
-    RADIO = (By.LINK_TEXT, "Radio")        
+    RADIO = (By.LINK_TEXT, "Radio")
     KIDS = (By.LINK_TEXT, "Kids")
     PUBLICATION = (By.LINK_TEXT, "Publication")
     TV_SCHEDULE = (By.LINK_TEXT, "TV Schedule")
     PRAYER = (By.LINK_TEXT, "Prayer")
 
-    #  Content Locators
+   
+    # Content Locators
+   
+    SECTIONS = (By.CSS_SELECTOR, "section.thumb_slider_section")  # Section blocks
     SECTION_HEADING = (By.CSS_SELECTOR, "section.thumb_slider_section h4")
-    VIDEO_THUMBNAILS = (By.CSS_SELECTOR, "section.thumb_slider_section .itemBox img:not(.video-play-button)")
-    VIDEO_PLAY_BUTTONS = (By.CSS_SELECTOR, "section.thumb_slider_section img.video-play-button")
-    VIDEOS = (By.CSS_SELECTOR, "video, iframe")
+    VIDEO_THUMBNAILS = (By.CSS_SELECTOR, "div.swiper-slide img")  # carousel thumbnails
+    VIDEO_PLAY_BUTTONS = (By.CSS_SELECTOR, "button.MuiIconButton-root svg[data-testid='PlayArrowIcon']")
+    VIDEOS = (By.CSS_SELECTOR, "video[src^='blob:'], iframe")  # fixed iframe locator
 
-    #  Navigation methods
+    # Radio (Audio) locators
+    AUDIOS = (By.CSS_SELECTOR, "audio")
+
+    # Publication (Document) locators
+    DOCUMENTS = (By.CSS_SELECTOR, "a[href$='.pdf'], a[href$='.doc'], a[href$='.docx']")
+
+    
+    # Navigation Methods
+   
     def go_to_home(self):
         self.wait.until(EC.element_to_be_clickable(self.HOME)).click()
 
     def go_to_radio(self):
-        self.wait.until(EC.element_to_be_clickable(self.RADIO)).click()   # Fixed
+        self.wait.until(EC.element_to_be_clickable(self.RADIO)).click()
 
     def go_to_kids(self):
         self.wait.until(EC.element_to_be_clickable(self.KIDS)).click()
@@ -41,17 +53,20 @@ class Page:
     def go_to_prayer(self):
         self.wait.until(EC.element_to_be_clickable(self.PRAYER)).click()
 
-    #  Content methods
-    def get_section_headings(self):
-        return self.driver.find_elements(*self.SECTION_HEADING)
-
-    def get_video_thumbnails(self):
-        return self.driver.find_elements(*self.VIDEO_THUMBNAILS)
-
-    def get_play_buttons(self):
-        return self.driver.find_elements(*self.VIDEO_PLAY_BUTTONS)
+    
+    # Helper Methods
+    
+    def get_sections(self):
+        return self.wait.until(EC.presence_of_all_elements_located(self.SECTIONS))
 
     def get_videos(self):
         return self.driver.find_elements(*self.VIDEOS)
+
+    def get_audios(self):
+        return self.driver.find_elements(*self.AUDIOS)
+
+    def get_documents(self):
+        return self.driver.find_elements(*self.DOCUMENTS)
+ents(*self.VIDEOS)
 
 

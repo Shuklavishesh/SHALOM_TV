@@ -67,6 +67,3 @@ class Page:
 
     def get_documents(self):
         return self.driver.find_elements(*self.DOCUMENTS)
-ents(*self.VIDEOS)
-
-
